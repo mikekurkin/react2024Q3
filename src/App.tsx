@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import ErrorBoundary from './components/ErrorBoundary';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 
@@ -9,7 +10,7 @@ class App extends Component {
 
   render() {
     return (
-      <>
+      <ErrorBoundary>
         <h1>Star Wars Characters</h1>
         <SearchBar
           searchTerm={this.state.searchTerm}
@@ -19,7 +20,7 @@ class App extends Component {
           }}
         />
         <SearchResults searchTerm={this.state.searchTerm} />
-      </>
+      </ErrorBoundary>
     );
   }
 }

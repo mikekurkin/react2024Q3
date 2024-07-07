@@ -8,11 +8,15 @@ type SearchBarProps = {
 };
 
 class SearchBar extends Component<SearchBarProps> {
-  state: { searchTerm: string } = {
+  state: { searchTerm: string; shouldBlowUp: boolean } = {
     searchTerm: this.props.searchTerm,
+    shouldBlowUp: false,
   };
 
   render() {
+    if (this.state.shouldBlowUp) {
+      throw new Error('App has been blown up.');
+    }
     return (
       <form
         onSubmit={(event) => {
@@ -29,7 +33,12 @@ class SearchBar extends Component<SearchBarProps> {
             }}
           ></input>
         </span>
-        <button className='form-control'>Search</button>
+        <button type='submit' className='form-control'>
+          Search
+        </button>
+        <button onClick={() => this.setState({ shouldBlowUp: true })} className='form-control'>
+          Boom!
+        </button>
       </form>
     );
   }
