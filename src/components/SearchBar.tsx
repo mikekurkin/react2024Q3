@@ -1,3 +1,5 @@
+import './SearchBar.css';
+
 import { Component } from 'react';
 
 type SearchBarProps = {
@@ -18,13 +20,15 @@ class SearchBar extends Component<SearchBarProps> {
           this.props.onSearch(this.state.searchTerm);
         }}
       >
-        <input
-          className='form-control'
-          value={this.state.searchTerm}
-          onChange={(event) => {
-            this.setState({ searchTerm: event.target.value });
-          }}
-        ></input>
+        <span>
+          <input
+            className='form-control'
+            value={this.state.searchTerm}
+            onChange={(event) => {
+              this.setState({ searchTerm: event.target.value });
+            }}
+          ></input>
+        </span>
         <button className='form-control'>Search</button>
       </form>
     );

@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import './App.css';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 
@@ -11,6 +10,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <h1>Star Wars Characters</h1>
         <SearchBar
           searchTerm={this.state.searchTerm}
           onSearch={(searchTerm) => {
