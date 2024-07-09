@@ -16,7 +16,6 @@ class CharacterCard extends Component<CharacterCardProps> {
     return (
       <div className='character-card'>
         <h3>{this.props.name}</h3>
-        {/* {this.props.species_name}, */}
         {this.props.gender}, born {this.props.birth_year}, eyes: {this.props.eye_color}, hair: {this.props.hair_color},
         height: {this.props.height}.
       </div>
