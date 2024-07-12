@@ -1,47 +1,44 @@
 import './SearchBar.css';
 
-import { Component } from 'react';
+import { useState } from 'react';
 
 type SearchBarProps = {
   searchTerm: string;
   onSearch: (searchTerm: string) => void;
 };
 
-class SearchBar extends Component<SearchBarProps> {
-  state: { searchTerm: string; shouldBlowUp: boolean } = {
-    searchTerm: this.props.searchTerm,
-    shouldBlowUp: false,
-  };
+function SearchBar(props: SearchBarProps) {
+  const [searchTerm, setSearchTerm] = useState(props.searchTerm);
+  const [shouldBlowUp, setShouldBlowUp] = useState(false);
 
-  render() {
-    if (this.state.shouldBlowUp) {
-      throw new Error('App has been blown up.');
-    }
-    return (
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.props.onSearch(this.state.searchTerm);
-        }}
-      >
-        <span>
-          <input
-            className='form-control'
-            value={this.state.searchTerm}
-            onChange={(event) => {
-              this.setState({ searchTerm: event.target.value });
-            }}
-          ></input>
-        </span>
-        <button type='submit' className='form-control'>
-          Search
-        </button>
-        <button onClick={() => this.setState({ shouldBlowUp: true })} className='form-control'>
-          Boom!
-        </button>
-      </form>
-    );
+  if (shouldBlowUp) {
+    throw new Error('App has been blown up.');
   }
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        props.onSearch(searchTerm);
+      }}
+    >
+      <span>
+        <input
+          className='form-control'
+          value={searchTerm}
+          onChange={(event) => {
+            setSearchTerm(event.target.value);
+          }}
+        ></input>
+      </span>
+      <button type='submit' className='form-control'>
+        Search
+      </button>
+      <button onClick={() => setShouldBlowUp(true)} className='form-control'>
+        Boom!
+      </button>
+    </form>
+  );
 }
 
 export default SearchBar;

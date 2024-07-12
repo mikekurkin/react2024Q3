@@ -1,28 +1,24 @@
-import { Component } from 'react';
-import ErrorBoundary from './components/ErrorBoundary';
-import SearchBar from './components/SearchBar';
-import SearchResults from './components/SearchResults';
+import { useState } from 'react';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import SearchBar from './components/SearchBar/SearchBar';
+import SearchResults from './components/SearchResults/SearchResults';
 
-class App extends Component {
-  state = {
-    searchTerm: localStorage.getItem('searchTerm') || '',
-  };
+function App() {
+  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('searchTerm') || '');
 
-  render() {
-    return (
-      <ErrorBoundary>
-        <h1>Star Wars Characters</h1>
-        <SearchBar
-          searchTerm={this.state.searchTerm}
-          onSearch={(searchTerm) => {
-            localStorage.setItem('searchTerm', searchTerm);
-            this.setState({ searchTerm });
-          }}
-        />
-        <SearchResults searchTerm={this.state.searchTerm} />
-      </ErrorBoundary>
-    );
-  }
+  return (
+    <ErrorBoundary>
+      <h1>Star Wars Characters</h1>
+      <SearchBar
+        searchTerm={searchTerm}
+        onSearch={(newSearchTerm) => {
+          localStorage.setItem('searchTerm', newSearchTerm);
+          setSearchTerm(newSearchTerm);
+        }}
+      />
+      <SearchResults searchTerm={searchTerm} />
+    </ErrorBoundary>
+  );
 }
 
 export default App;

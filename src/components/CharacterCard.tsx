@@ -1,9 +1,7 @@
-import { Component } from 'react';
 import './CharacterCard.css';
 
 export type CharacterCardProps = {
   name: string;
-  // species_name: string;
   gender: string;
   birth_year: string;
   eye_color: string;
@@ -11,16 +9,14 @@ export type CharacterCardProps = {
   height: number;
 };
 
-class CharacterCard extends Component<CharacterCardProps> {
-  render() {
-    return (
-      <div className='character-card'>
-        <h3>{this.props.name}</h3>
-        {this.props.gender}, born {this.props.birth_year}, eyes: {this.props.eye_color}, hair: {this.props.hair_color},
-        height: {this.props.height}.
-      </div>
-    );
-  }
+function CharacterCard(props: CharacterCardProps) {
+  return (
+    <div className='character-card'>
+      <h3>{props.name}</h3>
+      {props.gender}, born {props.birth_year}, eyes: {props.eye_color}, hair: {props.hair_color}, height: {props.height}
+      .
+    </div>
+  );
 }
 
 export default CharacterCard;
