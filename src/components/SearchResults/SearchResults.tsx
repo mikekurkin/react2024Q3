@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import CharacterCard, { CharacterCardProps } from './CharacterCard';
-import Loader from './Loader';
+import api from '../../services/api/api';
+import CharacterCard, { CharacterCardProps } from '../CharacterCard/CharacterCard';
+import Loader from '../Loader/Loader';
 
 type SearchResultsProps = {
   searchTerm: string;
@@ -11,21 +12,11 @@ function SearchResults(props: SearchResultsProps) {
   const [characters, setCharacters] = useState<CharacterCardProps[]>([]);
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          'https://swapi.dev/api/people/' + (props.searchTerm != '' ? `?search=${props.searchTerm.trim()}` : '')
-        );
-        const jsonResponse = await response.json();
-        if (jsonResponse) {
-          setCharacters(jsonResponse.results);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-      setIsLoading(false);
-    })();
+    setIsLoading(true);
+    api
+      .search<{ results: CharacterCardProps[] }>('people', props.searchTerm)
+      .then((json) => setCharacters(json.results));
+    setIsLoading(false);
   }, [props.searchTerm]);
   return (
     <>
