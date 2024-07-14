@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from '../../services/api/api';
 import CharacterCard, { CharacterCardProps } from '../CharacterCard/CharacterCard';
 import Loader from '../Loader/Loader';
@@ -12,22 +13,29 @@ function SearchResults({ searchTerm = '' }: SearchResultsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [characters, setCharacters] = useState<CharacterCardProps[]>([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchPage, setSearchPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     setIsLoading(true);
-    api.search<{ count: number; results: CharacterCardProps[] }>('people', searchTerm, searchPage).then((json) => {
-      setCharacters(json.results);
-      setTotalPages(Math.ceil(json.count / json.results.length) || 0);
-      setIsLoading(false);
-    });
-  }, [searchTerm, searchPage]);
-
-  useEffect(() => setSearchPage(1), [searchTerm]);
+    api
+      .search<{
+        count: number;
+        results: CharacterCardProps[];
+      }>('people', searchTerm, parseInt(searchParams.get('p') || '') || 1)
+      .then((json) => {
+        setCharacters(json.results);
+        setTotalPages(Math.ceil(json.count / 10) || 0);
+        setIsLoading(false);
+      });
+  }, [searchTerm, searchParams]);
 
   return (
     <>
-      <Paginator currentPage={searchPage} totalPages={totalPages} pageClickHandler={(page) => setSearchPage(page)} />
+      <Paginator
+        currentPage={parseInt(searchParams.get('p') || '') || 1}
+        totalPages={totalPages}
+        pageClickHandler={(page) => setSearchParams({ q: searchTerm, p: page.toString() })}
+      />
       {isLoading ? (
         <Loader />
       ) : (
