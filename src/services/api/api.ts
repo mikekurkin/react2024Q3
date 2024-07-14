@@ -6,7 +6,7 @@ async function search<T>(path: string, query: string, page: number = 1) {
 
   const response = await fetch(url);
   const jsonResponse = await response.json();
-  return jsonResponse.results as T;
+  return jsonResponse as T;
 }
 
 export default { search };

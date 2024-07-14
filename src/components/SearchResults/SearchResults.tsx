@@ -13,10 +13,10 @@ function SearchResults(props: SearchResultsProps) {
 
   useEffect(() => {
     setIsLoading(true);
-    api
-      .search<{ results: CharacterCardProps[] }>('people', props.searchTerm)
-      .then((json) => setCharacters(json.results));
-    setIsLoading(false);
+    api.search<{ results: CharacterCardProps[] }>('people', props.searchTerm).then((json) => {
+      setCharacters(json.results);
+      setIsLoading(false);
+    });
   }, [props.searchTerm]);
   return (
     <>
