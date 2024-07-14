@@ -9,4 +9,12 @@ async function search<T>(path: string, query: string, page: number = 1) {
   return jsonResponse as T;
 }
 
-export default { search };
+async function url<T>(path: string) {
+  const url = new URL(path, baseUrl);
+
+  const response = await fetch(url);
+  const jsonResponse = await response.json();
+  return jsonResponse as T;
+}
+
+export default { search, url };

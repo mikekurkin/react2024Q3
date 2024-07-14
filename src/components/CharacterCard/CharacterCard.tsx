@@ -1,6 +1,8 @@
 import './CharacterCard.css';
 
 export type CharacterCardProps = {
+  active: boolean;
+  onClick: () => void;
   name: string;
   gender: string;
   birth_year: string;
@@ -11,8 +13,8 @@ export type CharacterCardProps = {
 
 function CharacterCard(props: CharacterCardProps) {
   return (
-    <div className='character-card'>
-      <h3>{props.name}</h3>
+    <div onClick={props.onClick} className={props.active ? 'character-card active' : 'character-card'}>
+      <h3 className='character-name'>{props.name}</h3>
       {props.gender}, born {props.birth_year}, eyes: {props.eye_color}, hair: {props.hair_color}, height: {props.height}
       .
     </div>

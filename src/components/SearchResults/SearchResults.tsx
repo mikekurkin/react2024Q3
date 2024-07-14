@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import api from '../../services/api/api';
-import CharacterCard, { CharacterCardProps } from '../CharacterCard/CharacterCard';
+import CharacterCard from '../CharacterCard/CharacterCard';
+import CharacterDetails, { CharacterDetailsProps } from '../CharacterDetails/CharacterDetails';
 import Loader from '../Loader/Loader';
 import Paginator from '../Paginator/Paginator';
 
@@ -9,43 +10,79 @@ type SearchResultsProps = {
   searchTerm: string;
 };
 
-function SearchResults({ searchTerm = '' }: SearchResultsProps) {
+function SearchResults({ searchTerm }: SearchResultsProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [characters, setCharacters] = useState<CharacterCardProps[]>([]);
+  const [characters, setCharacters] = useState<CharacterDetailsProps[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchPage, setSearchPage] = useState(parseInt(searchParams.get('p') || '') || 1);
+  const [details, setDetails] = useState<number | null>(parseInt(searchParams.get('details') || '') || null);
 
   useEffect(() => {
     setIsLoading(true);
     api
       .search<{
         count: number;
-        results: CharacterCardProps[];
-      }>('people', searchTerm, parseInt(searchParams.get('p') || '') || 1)
+        results: CharacterDetailsProps[];
+      }>('people', searchTerm, searchPage)
       .then((json) => {
         setCharacters(json.results);
         setTotalPages(Math.ceil(json.count / 10) || 0);
         setIsLoading(false);
       });
-  }, [searchTerm, searchParams]);
+  }, [searchTerm, searchPage]);
+
+  useEffect(() => {
+    setSearchParams((prev) => ({ ...Object.fromEntries(prev), p: searchPage.toString() }));
+  }, [searchPage, setSearchParams]);
+
+  useEffect(() => {
+    setSearchParams((prev) => ({ ...Object.fromEntries(prev), q: searchTerm }));
+  }, [searchTerm, setSearchParams]);
+
+  useEffect(() => {
+    setSearchParams((prev) => {
+      if (details == null) {
+        prev.delete('details');
+        return prev;
+      }
+      return { ...Object.fromEntries(prev), details: details.toString() };
+    });
+  }, [details, setSearchParams]);
 
   return (
-    <>
+    <div className='flex flex-col'>
       <Paginator
-        currentPage={parseInt(searchParams.get('p') || '') || 1}
+        currentPage={searchPage}
         totalPages={totalPages}
-        pageClickHandler={(page) => setSearchParams({ q: searchTerm, p: page.toString() })}
+        pageClickHandler={(page) => {
+          setDetails(null);
+          setSearchPage(page);
+        }}
       />
       {isLoading ? (
         <Loader />
       ) : (
-        <div>
-          {characters.map((character, index) => (
-            <CharacterCard key={index} {...character} />
-          ))}
+        <div className='flex flex-row'>
+          <div className='flex-item'>
+            {characters.map((character, index) => (
+              <CharacterCard
+                key={index}
+                {...character}
+                active={details != null && details == index}
+                onClick={() => setDetails(index)}
+              />
+            ))}
+          </div>
+
+          {details != null && !isLoading ? (
+            <div className='flex-item'>
+              <CharacterDetails {...characters[details]} />
+            </div>
+          ) : null}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
