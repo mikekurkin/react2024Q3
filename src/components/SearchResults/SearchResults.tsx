@@ -70,14 +70,14 @@ function SearchResults({ searchTerm }: SearchResultsProps) {
                 key={index}
                 {...character}
                 active={details != null && details == index}
-                onClick={() => setDetails(index)}
+                onClick={() => setDetails(details == index ? null : index)}
               />
             ))}
           </div>
 
           {details != null && !isLoading ? (
             <div className='flex-item'>
-              <CharacterDetails {...characters[details]} />
+              <CharacterDetails {...characters[details]} closeDetails={() => setDetails(null)} />
             </div>
           ) : null}
         </div>

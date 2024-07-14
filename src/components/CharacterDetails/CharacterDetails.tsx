@@ -4,6 +4,7 @@ import Loader from '../Loader/Loader';
 import './CharacterDetails.css';
 
 export type CharacterDetailsProps = {
+  closeDetails: () => void;
   name: string;
   gender: string;
   birth_year: string;
@@ -61,6 +62,7 @@ function CharacterDetails(props: CharacterDetailsProps) {
 
   return (
     <div className='character-details'>
+      <div className='close-button' onClick={props.closeDetails} />
       <h2>{props.name}</h2>
       {isLoading ? (
         <Loader />

@@ -15,6 +15,18 @@ h4 {
   padding: 0;
 }
 
+.close-button {
+  margin: 1em 0;
+  float: right;
+  cursor: pointer;
+}
+.close-button::after {
+  content: '╳';
+}
+.close-button:hover {
+  color: #747bff;
+}
+
 @media (prefers-color-scheme: light) {
   .character-details {
     background-color: #f9f9f9;
