@@ -1,21 +1,15 @@
-import { useState } from 'react';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResults from './components/SearchResults/SearchResults';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('searchTerm') || '');
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
 
   return (
     <ErrorBoundary>
       <h1>Star Wars Characters</h1>
-      <SearchBar
-        searchTerm={searchTerm}
-        onSearch={(newSearchTerm) => {
-          localStorage.setItem('searchTerm', newSearchTerm);
-          setSearchTerm(newSearchTerm);
-        }}
-      />
+      <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
       <SearchResults searchTerm={searchTerm} />
     </ErrorBoundary>
   );
