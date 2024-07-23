@@ -1,0 +1,34 @@
+.character-details {
+  align-items: stretch;
+  flex-grow: 0;
+  background-color: #1a1a1a;
+  margin: 0.5em;
+  padding: 0.5em 2em;
+  text-align: left;
+  border-radius: 8px;
+}
+
+h2,
+h3,
+h4 {
+  margin: 1em 0 0.2em;
+  padding: 0;
+}
+
+.close-button {
+  margin: 1em 0;
+  float: right;
+  cursor: pointer;
+}
+.close-button::after {
+  content: '╳';
+}
+.close-button:hover {
+  color: #747bff;
+}
+
+@media (prefers-color-scheme: light) {
+  .character-details {
+    background-color: #f9f9f9;
+  }
+}

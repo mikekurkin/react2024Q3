@@ -1,28 +1,26 @@
-import { Component } from 'react';
-import ErrorBoundary from './components/ErrorBoundary';
-import SearchBar from './components/SearchBar';
-import SearchResults from './components/SearchResults';
+import { useSearchParams } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import SearchBar from './components/SearchBar/SearchBar';
+import SearchResults from './components/SearchResults/SearchResults';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
-class App extends Component {
-  state = {
-    searchTerm: localStorage.getItem('searchTerm') || '',
-  };
+function App() {
+  const [savedSearchTerm, setSavedSearchTerm] = useLocalStorage('searchTerm');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  render() {
-    return (
-      <ErrorBoundary>
-        <h1>Star Wars Characters</h1>
-        <SearchBar
-          searchTerm={this.state.searchTerm}
-          onSearch={(searchTerm) => {
-            localStorage.setItem('searchTerm', searchTerm);
-            this.setState({ searchTerm });
-          }}
-        />
-        <SearchResults searchTerm={this.state.searchTerm} />
-      </ErrorBoundary>
-    );
-  }
+  return (
+    <ErrorBoundary>
+      <h1>Star Wars Characters</h1>
+      <SearchBar
+        searchTerm={searchParams.get('q') || savedSearchTerm}
+        onSearch={(newSearchTerm) => {
+          setSearchParams({ q: newSearchTerm });
+          setSavedSearchTerm(newSearchTerm);
+        }}
+      />
+      <SearchResults searchTerm={searchParams.get('q') || savedSearchTerm} />
+    </ErrorBoundary>
+  );
 }
 
 export default App;

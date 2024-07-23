@@ -4,9 +4,15 @@
   padding: 0.5em 2em;
   text-align: left;
   border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
 }
 
-h3 {
+.character-card.active {
+  border-color: #646cff;
+}
+
+h3.character-name {
   margin: 0;
 }
 
