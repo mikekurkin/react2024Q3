@@ -1,22 +1,18 @@
+import { Person } from '../../services/swApi/types';
 import './CharacterCard.css';
 
 export type CharacterCardProps = {
   active: boolean;
   onClick: () => void;
-  name: string;
-  gender: string;
-  birth_year: string;
-  eye_color: string;
-  hair_color: string;
-  height: number;
+  character: Partial<Person>;
 };
 
 function CharacterCard(props: CharacterCardProps) {
   return (
     <div onClick={props.onClick} className={props.active ? 'character-card active' : 'character-card'}>
-      <h3 className='character-name'>{props.name}</h3>
-      {props.gender}, born {props.birth_year}, eyes: {props.eye_color}, hair: {props.hair_color}, height: {props.height}
-      .
+      <h3 className='character-name'>{props.character.name}</h3>
+      {props.character.gender}, born {props.character.birth_year}, eyes: {props.character.eye_color}, hair:{' '}
+      {props.character.hair_color}, height: {props.character.height ?? null}.
     </div>
   );
 }

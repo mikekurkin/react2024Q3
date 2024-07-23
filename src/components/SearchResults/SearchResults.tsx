@@ -1,64 +1,46 @@
-import { useEffect, useState } from 'react';
-import api from '../../services/api/api';
 import CharacterCard from '../CharacterCard/CharacterCard';
-import CharacterDetails, { CharacterDetailsProps } from '../CharacterDetails/CharacterDetails';
 import Loader from '../Loader/Loader';
 import Paginator from '../Paginator/Paginator';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setDetails, setIsLoading, setPage } from '../../state/searchResults/searchResultsSlice';
+import { swApi } from '../../services/swApi/sw';
+import { setDetails, setPage } from '../../state/searchResults/searchResultsSlice';
 import { RootState } from '../../state/store';
+import CharacterDetails from '../CharacterDetails/CharacterDetails';
 
 function SearchResults() {
-  const [characters, setCharacters] = useState<CharacterDetailsProps[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
-
-  const { query, page, details, isLoading } = useSelector((state: RootState) => state.searchResults);
+  const { query, page, details } = useSelector((state: RootState) => state.searchResults);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setIsLoading(true));
-    api
-      .search<{
-        count: number;
-        results: CharacterDetailsProps[];
-      }>('people', query, page)
-      .then((json) => {
-        setCharacters(json.results);
-        setTotalPages(Math.ceil(json.count / 10) || 0);
-        dispatch(setIsLoading(false));
-      });
-  }, [query, page, dispatch]);
+  const { data, isFetching } = swApi.useSearchPeopleQuery({ search: query, page });
 
   return (
     <div className='flex flex-col'>
       <Paginator
         currentPage={page}
-        totalPages={totalPages}
+        totalPages={Math.ceil((data?.count ?? 0) / 10)}
         pageClickHandler={(page) => {
           dispatch(setDetails(null));
           dispatch(setPage(page));
         }}
       />
-      {isLoading ? (
+      {isFetching ? (
         <Loader />
       ) : (
         <div className='flex flex-row'>
           <div className='flex-item'>
-            {characters.map((character, index) => (
+            {data?.results.map((character, index) => (
               <CharacterCard
                 key={index}
-                {...character}
+                character={character}
                 active={details != null && details == index}
                 onClick={() => dispatch(setDetails(details == index ? null : index))}
               />
             ))}
           </div>
 
-          {details != null && !isLoading ? (
-            <div className='flex-item'>
-              <CharacterDetails {...characters[details]} closeDetails={() => dispatch(setDetails(null))} />
-            </div>
+          {details != null && data?.results[details] && !isFetching ? (
+            <CharacterDetails character={data.results[details]} closeDetails={() => dispatch(setDetails(null))} />
           ) : null}
         </div>
       )}

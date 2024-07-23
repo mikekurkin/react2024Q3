@@ -6,7 +6,6 @@ import { setValue } from '../../state/searchBar/searchBarSlice';
 import { RootState } from '../../state/store';
 
 type SearchBarProps = {
-  searchTerm: string;
   onSearch: (searchTerm: string) => void;
 };
 

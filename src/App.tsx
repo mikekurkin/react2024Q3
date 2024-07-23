@@ -5,6 +5,7 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResults from './components/SearchResults/SearchResults';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { setValue } from './state/searchBar/searchBarSlice';
 import { setDetails, setPage, setQuery } from './state/searchResults/searchResultsSlice';
 import { RootState } from './state/store';
 
@@ -19,7 +20,13 @@ function App() {
     const { q, p, details: d } = Object.fromEntries(searchParams.entries());
     if (d) dispatch(setDetails(parseInt(d)));
     if (p) dispatch(setPage(parseInt(p)));
-    if (q) dispatch(setQuery(q));
+    if (q) {
+      dispatch(setValue(q));
+      dispatch(setQuery(q));
+    } else {
+      dispatch(setQuery(savedSearchTerm));
+      dispatch(setValue(savedSearchTerm));
+    }
   }, []);
 
   useEffect(() => {
@@ -44,7 +51,6 @@ function App() {
     <ErrorBoundary>
       <h1>Star Wars Characters</h1>
       <SearchBar
-        searchTerm={searchParams.get('q') || savedSearchTerm}
         onSearch={(newSearchTerm) => {
           dispatch(setQuery(newSearchTerm));
           setSavedSearchTerm(newSearchTerm);

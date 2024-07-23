@@ -1,114 +1,50 @@
-import { useEffect, useState } from 'react';
-import api from '../../services/api/api';
+import { swApi } from '../../services/swApi/sw';
+import { Person } from '../../services/swApi/types';
 import Loader from '../Loader/Loader';
 import './CharacterDetails.css';
 
 export type CharacterDetailsProps = {
   closeDetails: () => void;
-  name: string;
-  gender: string;
-  birth_year: string;
-  eye_color: string;
-  hair_color: string;
-  height: number;
-  homeworld: string;
-  films: string[];
-  starships: string[];
-};
-
-type HomeworldDetails = {
-  name: string;
-  diameter: string;
-  climate: string;
-  gravity: string;
-  terrain: string;
-  population: string;
-};
-
-type FilmDetails = {
-  title: string;
-  episode_id: number;
-  release_date: string;
-};
-
-type StarshipDetails = {
-  name: string;
-  manufacturer: string;
-  length: string;
-  crew: string;
-  passengers: string;
+  character: Person;
 };
 
 function CharacterDetails(props: CharacterDetailsProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [homeworldDetails, setHomeworldDetails] = useState<HomeworldDetails>();
-  const [filmsDetails, setFilmsDetails] = useState<FilmDetails[]>([]);
-  const [starshipsDetails, setStarshipsDetails] = useState<StarshipDetails[]>([]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    Promise.all([
-      api.url<HomeworldDetails>(props.homeworld).then((json) => {
-        setHomeworldDetails(json);
-      }),
-      Promise.all((props.films ?? []).map((film) => api.url<FilmDetails>(film))).then((results) => {
-        setFilmsDetails(results);
-      }),
-      Promise.all((props.starships ?? []).map((starship) => api.url<StarshipDetails>(starship))).then((results) => {
-        setStarshipsDetails(results);
-      }),
-    ]).then(() => setIsLoading(false));
-  }, [props.homeworld, props.films, props.starships]);
+  const { data: homeworldDetails, isFetching } = swApi.useGetPlanetQuery(props.character.homeworld);
 
   return (
-    <div className='character-details'>
+    <div className='character-details flex-item'>
       <div className='close-button' onClick={props.closeDetails} />
-      <h2>{props.name}</h2>
-      {isLoading ? (
+      <h2>{props.character.name}</h2>
+      {isFetching ? (
         <Loader />
       ) : (
         <>
-          Gender: {props.gender}
+          Gender: {props.character.gender}
           <br />
-          Born {props.birth_year}
+          Born {props.character.birth_year}
           <br />
-          Eyes: {props.eye_color}
+          Eyes: {props.character.eye_color}
           <br />
-          Hair: {props.hair_color}
+          Hair: {props.character.hair_color}
           <br />
-          Height: {props.height}
+          Height: {props.character.height}
           <br />
-          <h3>Homeworld:</h3>
-          <h4>{homeworldDetails?.name}</h4>
-          Diameter: {homeworldDetails?.diameter}
-          <br />
-          Climate: {homeworldDetails?.climate}
-          <br />
-          Gravity: {homeworldDetails?.gravity}
-          <br />
-          Terrain: {homeworldDetails?.terrain}
-          <br />
-          Population: {homeworldDetails?.population}
-          <br />
-          <h3>Starships:</h3>
-          {starshipsDetails.map((starship, index) => (
-            <div key={index}>
-              <h4>{starship.name}</h4>
-              Manufacturer: {starship.manufacturer} <br />
-              Length: {starship.length} <br />
-              Crew: {starship.crew} <br />
-              Passengers: {starship.passengers} <br />
-            </div>
-          ))}
-          <h3>Films:</h3>
-          {filmsDetails.map((film, index) => (
-            <div key={index}>
-              <h4>{film.title}</h4>
-              Episode {film.episode_id} <br />
-              Released: {film.release_date} <br />
-            </div>
-          ))}
-          <br />
+          {!homeworldDetails ? null : (
+            <>
+              <h3>Homeworld:</h3>
+              <h4>{homeworldDetails.name}</h4>
+              Diameter: {homeworldDetails.diameter}
+              <br />
+              Climate: {homeworldDetails.climate}
+              <br />
+              Gravity: {homeworldDetails.gravity}
+              <br />
+              Terrain: {homeworldDetails.terrain}
+              <br />
+              Population: {homeworldDetails.population}
+              <br />
+            </>
+          )}
         </>
       )}
     </div>
