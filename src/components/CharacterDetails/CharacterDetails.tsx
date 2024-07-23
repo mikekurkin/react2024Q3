@@ -1,47 +1,50 @@
+import { useDispatch } from 'react-redux';
 import { swApi } from '../../services/swApi/sw';
 import { Person } from '../../services/swApi/types';
+import { setDetails } from '../../state/searchResults/searchResultsSlice';
 import Loader from '../Loader/Loader';
 import './CharacterDetails.css';
 
-export type CharacterDetailsProps = {
-  closeDetails: () => void;
+interface CharacterDetailsProps {
   character: Person;
-};
+}
 
-function CharacterDetails(props: CharacterDetailsProps) {
-  const { data: homeworldDetails, isFetching } = swApi.useGetPlanetQuery(props.character.homeworld);
+const CharacterDetails = ({ character }: CharacterDetailsProps) => {
+  const dispatch = useDispatch();
+
+  const { isFetching, data: planet } = swApi.useGetPlanetQuery(character.homeworld);
 
   return (
     <div className='character-details flex-item'>
-      <div className='close-button' onClick={props.closeDetails} />
-      <h2>{props.character.name}</h2>
+      <div className='close-button' onClick={() => dispatch(setDetails(null))} />
+      <h2>{character.name}</h2>
       {isFetching ? (
         <Loader />
       ) : (
         <>
-          Gender: {props.character.gender}
+          Gender: {character.gender}
           <br />
-          Born {props.character.birth_year}
+          Born {character.birth_year}
           <br />
-          Eyes: {props.character.eye_color}
+          Eyes: {character.eye_color}
           <br />
-          Hair: {props.character.hair_color}
+          Hair: {character.hair_color}
           <br />
-          Height: {props.character.height}
+          Height: {character.height}
           <br />
-          {!homeworldDetails ? null : (
+          {!planet ? null : (
             <>
               <h3>Homeworld:</h3>
-              <h4>{homeworldDetails.name}</h4>
-              Diameter: {homeworldDetails.diameter}
+              <h4>{planet.name}</h4>
+              Diameter: {planet.diameter}
               <br />
-              Climate: {homeworldDetails.climate}
+              Climate: {planet.climate}
               <br />
-              Gravity: {homeworldDetails.gravity}
+              Gravity: {planet.gravity}
               <br />
-              Terrain: {homeworldDetails.terrain}
+              Terrain: {planet.terrain}
               <br />
-              Population: {homeworldDetails.population}
+              Population: {planet.population}
               <br />
             </>
           )}
@@ -49,6 +52,6 @@ function CharacterDetails(props: CharacterDetailsProps) {
       )}
     </div>
   );
-}
+};
 
 export default CharacterDetails;

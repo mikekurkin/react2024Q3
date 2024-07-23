@@ -4,13 +4,10 @@ import { useSearchParams } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResults from './components/SearchResults/SearchResults';
-import { useLocalStorage } from './hooks/useLocalStorage';
-import { setValue } from './state/searchBar/searchBarSlice';
 import { setDetails, setPage, setQuery } from './state/searchResults/searchResultsSlice';
 import { RootState } from './state/store';
 
-function App() {
-  const [savedSearchTerm, setSavedSearchTerm] = useLocalStorage('searchTerm');
+const App = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { query, page, details } = useSelector((state: RootState) => state.searchResults);
@@ -20,13 +17,7 @@ function App() {
     const { q, p, details: d } = Object.fromEntries(searchParams.entries());
     if (d) dispatch(setDetails(parseInt(d)));
     if (p) dispatch(setPage(parseInt(p)));
-    if (q) {
-      dispatch(setValue(q));
-      dispatch(setQuery(q));
-    } else {
-      dispatch(setQuery(savedSearchTerm));
-      dispatch(setValue(savedSearchTerm));
-    }
+    if (q) dispatch(setQuery(q));
   }, []);
 
   useEffect(() => {
@@ -50,15 +41,10 @@ function App() {
   return (
     <ErrorBoundary>
       <h1>Star Wars Characters</h1>
-      <SearchBar
-        onSearch={(newSearchTerm) => {
-          dispatch(setQuery(newSearchTerm));
-          setSavedSearchTerm(newSearchTerm);
-        }}
-      />
+      <SearchBar />
       <SearchResults />
     </ErrorBoundary>
   );
-}
+};
 
 export default App;

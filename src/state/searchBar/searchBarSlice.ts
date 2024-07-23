@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { setQuery } from '../searchResults/searchResultsSlice';
 
 export interface SearchBarState {
   value: string;
@@ -16,6 +17,12 @@ const searchBarSlice = createSlice({
       localStorage.setItem('searchBarValue', action.payload);
       state.value = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(setQuery, (state, action) => {
+      localStorage.setItem('searchBarValue', action.payload);
+      state.value = action.payload;
+    });
   },
 });
 

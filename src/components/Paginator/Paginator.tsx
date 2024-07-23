@@ -1,20 +1,23 @@
+import { useDispatch } from 'react-redux';
+import { setPage } from '../../state/searchResults/searchResultsSlice';
 import './Paginator.css';
 
-type PaginatorProps = {
+interface PaginatorProps {
   currentPage: number;
   totalPages: number;
-  pageClickHandler: (page: number) => void;
-};
+}
 
-function Paginator(props: PaginatorProps) {
-  return props.totalPages < 2 ? null : (
+const Paginator = ({ currentPage, totalPages }: PaginatorProps) => {
+  const dispatch = useDispatch();
+
+  return totalPages < 2 ? null : (
     <>
       <div className='paginator'>
-        {[...Array(props.totalPages)].map((_index, idx) => (
+        {[...Array(totalPages)].map((_index, idx) => (
           <button
             key={idx + 1}
-            onClick={() => props.pageClickHandler(idx + 1)}
-            className={idx + 1 == props.currentPage ? 'paginator-page active' : 'paginator-page'}
+            onClick={() => dispatch(setPage(idx + 1))}
+            className={idx + 1 == currentPage ? 'paginator-page active' : 'paginator-page'}
           >
             {idx + 1}
           </button>
@@ -22,6 +25,6 @@ function Paginator(props: PaginatorProps) {
       </div>
     </>
   );
-}
+};
 
 export default Paginator;

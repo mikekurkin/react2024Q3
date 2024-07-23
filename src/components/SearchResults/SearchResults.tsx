@@ -2,50 +2,41 @@ import CharacterCard from '../CharacterCard/CharacterCard';
 import Loader from '../Loader/Loader';
 import Paginator from '../Paginator/Paginator';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { swApi } from '../../services/swApi/sw';
-import { setDetails, setPage } from '../../state/searchResults/searchResultsSlice';
 import { RootState } from '../../state/store';
 import CharacterDetails from '../CharacterDetails/CharacterDetails';
 
-function SearchResults() {
+const SearchResults = () => {
   const { query, page, details } = useSelector((state: RootState) => state.searchResults);
-  const dispatch = useDispatch();
 
-  const { data, isFetching } = swApi.useSearchPeopleQuery({ search: query, page });
+  const { isFetching, data: { count, results: people, next } = { count: 0, results: [], next: null } } =
+    swApi.useSearchPeopleQuery({
+      search: query,
+      page,
+    });
 
   return (
     <div className='flex flex-col'>
       <Paginator
         currentPage={page}
-        totalPages={Math.ceil((data?.count ?? 0) / 10)}
-        pageClickHandler={(page) => {
-          dispatch(setDetails(null));
-          dispatch(setPage(page));
-        }}
+        totalPages={count == 0 ? 0 : next == null ? page : Math.ceil(count / people.length)}
       />
       {isFetching ? (
         <Loader />
       ) : (
         <div className='flex flex-row'>
           <div className='flex-item'>
-            {data?.results.map((character, index) => (
-              <CharacterCard
-                key={index}
-                character={character}
-                active={details != null && details == index}
-                onClick={() => dispatch(setDetails(details == index ? null : index))}
-              />
+            {people.map((person, index) => (
+              <CharacterCard key={index} index={index} character={person} />
             ))}
           </div>
 
-          {details != null && data?.results[details] && !isFetching ? (
-            <CharacterDetails character={data.results[details]} closeDetails={() => dispatch(setDetails(null))} />
-          ) : null}
+          {details != null && people[details] && !isFetching ? <CharacterDetails character={people[details]} /> : null}
         </div>
       )}
     </div>
   );
-}
+};
 
 export default SearchResults;

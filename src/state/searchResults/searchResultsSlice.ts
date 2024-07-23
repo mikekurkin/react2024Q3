@@ -4,14 +4,12 @@ export interface SearchResultsState {
   query: string;
   page: number;
   details: number | null;
-  isLoading: boolean;
 }
 
 const initialState: SearchResultsState = {
   query: '',
   page: 1,
   details: null,
-  isLoading: false,
 };
 
 const searchResultsSlice = createSlice({
@@ -33,14 +31,10 @@ const searchResultsSlice = createSlice({
       ...state,
       details: action.payload,
     }),
-    setIsLoading: (state, action: PayloadAction<boolean>) => ({
-      ...state,
-      isLoading: action.payload,
-    }),
   },
 });
 
 const searchResultsReducer = searchResultsSlice.reducer;
 
-export const { setQuery, setPage, setDetails, setIsLoading } = searchResultsSlice.actions;
+export const { setQuery, setPage, setDetails } = searchResultsSlice.actions;
 export default searchResultsReducer;
