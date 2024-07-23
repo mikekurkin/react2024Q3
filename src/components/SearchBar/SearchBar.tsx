@@ -1,6 +1,9 @@
+import { useDispatch, useSelector } from 'react-redux';
 import './SearchBar.css';
 
 import { useState } from 'react';
+import { setValue } from '../../state/searchBar/searchBarSlice';
+import { RootState } from '../../state/store';
 
 type SearchBarProps = {
   searchTerm: string;
@@ -8,8 +11,10 @@ type SearchBarProps = {
 };
 
 function SearchBar(props: SearchBarProps) {
-  const [searchTerm, setSearchTerm] = useState(props.searchTerm);
   const [shouldBlowUp, setShouldBlowUp] = useState(false);
+
+  const value = useSelector((state: RootState) => state.searchBar.value);
+  const dispatch = useDispatch();
 
   if (shouldBlowUp) {
     throw new Error('App has been blown up.');
@@ -19,16 +24,14 @@ function SearchBar(props: SearchBarProps) {
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        props.onSearch(searchTerm);
+        props.onSearch(value);
       }}
     >
       <span>
         <input
           className='form-control'
-          value={searchTerm}
-          onChange={(event) => {
-            setSearchTerm(event.target.value);
-          }}
+          value={value}
+          onChange={(event) => dispatch(setValue(event.target.value))}
         ></input>
       </span>
       <button type='submit' className='form-control'>

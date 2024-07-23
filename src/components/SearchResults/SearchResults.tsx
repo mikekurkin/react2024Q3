@@ -1,63 +1,43 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import api from '../../services/api/api';
 import CharacterCard from '../CharacterCard/CharacterCard';
 import CharacterDetails, { CharacterDetailsProps } from '../CharacterDetails/CharacterDetails';
 import Loader from '../Loader/Loader';
 import Paginator from '../Paginator/Paginator';
 
-type SearchResultsProps = {
-  searchTerm: string;
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { setDetails, setIsLoading, setPage } from '../../state/searchResults/searchResultsSlice';
+import { RootState } from '../../state/store';
 
-function SearchResults({ searchTerm }: SearchResultsProps) {
-  const [isLoading, setIsLoading] = useState(false);
+function SearchResults() {
   const [characters, setCharacters] = useState<CharacterDetailsProps[]>([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchPage, setSearchPage] = useState(parseInt(searchParams.get('p') || '') || 1);
-  const [details, setDetails] = useState<number | null>(parseInt(searchParams.get('details') || '') || null);
+
+  const { query, page, details, isLoading } = useSelector((state: RootState) => state.searchResults);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     api
       .search<{
         count: number;
         results: CharacterDetailsProps[];
-      }>('people', searchTerm, searchPage)
+      }>('people', query, page)
       .then((json) => {
         setCharacters(json.results);
         setTotalPages(Math.ceil(json.count / 10) || 0);
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       });
-  }, [searchTerm, searchPage]);
-
-  useEffect(() => {
-    setSearchParams((prev) => ({ ...Object.fromEntries(prev), p: searchPage.toString() }));
-  }, [searchPage, setSearchParams]);
-
-  useEffect(() => {
-    setSearchParams((prev) => ({ ...Object.fromEntries(prev), q: searchTerm }));
-  }, [searchTerm, setSearchParams]);
-
-  useEffect(() => {
-    setSearchParams((prev) => {
-      if (details == null) {
-        prev.delete('details');
-        return prev;
-      }
-      return { ...Object.fromEntries(prev), details: details.toString() };
-    });
-  }, [details, setSearchParams]);
+  }, [query, page, dispatch]);
 
   return (
     <div className='flex flex-col'>
       <Paginator
-        currentPage={searchPage}
+        currentPage={page}
         totalPages={totalPages}
         pageClickHandler={(page) => {
-          setDetails(null);
-          setSearchPage(page);
+          dispatch(setDetails(null));
+          dispatch(setPage(page));
         }}
       />
       {isLoading ? (
@@ -70,14 +50,14 @@ function SearchResults({ searchTerm }: SearchResultsProps) {
                 key={index}
                 {...character}
                 active={details != null && details == index}
-                onClick={() => setDetails(details == index ? null : index)}
+                onClick={() => dispatch(setDetails(details == index ? null : index))}
               />
             ))}
           </div>
 
           {details != null && !isLoading ? (
             <div className='flex-item'>
-              <CharacterDetails {...characters[details]} closeDetails={() => setDetails(null)} />
+              <CharacterDetails {...characters[details]} closeDetails={() => dispatch(setDetails(null))} />
             </div>
           ) : null}
         </div>
