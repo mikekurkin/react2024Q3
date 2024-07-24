@@ -11,6 +11,13 @@
 .character-card.active {
   border-color: #646cff;
 }
+.selection-checkbox {
+  align-self: top;
+  margin-left: -1em;
+  margin-top: 0.5em;
+  width: 30px;
+  height: 30px;
+}
 
 h3.character-name {
   margin: 0;

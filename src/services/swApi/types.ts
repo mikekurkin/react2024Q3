@@ -5,8 +5,8 @@ export interface SearchArguments {
 
 export interface ListResponse<T> {
   count: number;
-  next: URL;
-  previous: URL;
+  next: string;
+  previous: string;
   results: T[];
 }
 
@@ -19,14 +19,14 @@ export interface Person {
   eye_color: string;
   birth_year: string;
   gender: string;
-  homeworld: URL;
-  films: URL[];
-  species: URL[];
-  vehicles: URL[];
-  starships: URL[];
+  homeworld: string;
+  films: string[];
+  species: string[];
+  vehicles: string[];
+  starships: string[];
   created: Date;
   edited: Date;
-  url: URL;
+  url: string;
 }
 
 export interface Planet {
@@ -39,11 +39,11 @@ export interface Planet {
   terrain: string;
   surface_water: number;
   population: number;
-  residents: URL[];
-  films: URL[];
+  residents: string[];
+  films: string[];
   created: Date;
   edited: Date;
-  url: URL;
+  url: string;
 }
 
 export interface Film {
@@ -53,14 +53,14 @@ export interface Film {
   director: string;
   producer: string;
   release_date: string;
-  characters: URL[];
-  planets: URL[];
-  starships: URL[];
-  vehicles: URL[];
-  species: URL[];
+  characters: string[];
+  planets: string[];
+  starships: string[];
+  vehicles: string[];
+  species: string[];
   created: Date;
   edited: Date;
-  url: URL;
+  url: string;
 }
 
 export interface Starships {
@@ -77,9 +77,9 @@ export interface Starships {
   hyperdrive_rating: string;
   MGLT: number;
   starship_class: string;
-  pilots: URL[];
-  films: URL[];
+  pilots: string[];
+  films: string[];
   created: Date;
   edited: Date;
-  url: URL;
+  url: string;
 }
