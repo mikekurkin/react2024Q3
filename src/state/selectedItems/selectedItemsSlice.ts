@@ -39,6 +39,7 @@ const selectedItemsSlice = createSlice({
         (record) => !(record.page === delPage && record.index === delIndex)
       );
     },
+    clearSelectedItems: () => initialState,
   },
   extraReducers: (builder) => {
     builder.addCase(setQuery, () => initialState);
@@ -47,5 +48,5 @@ const selectedItemsSlice = createSlice({
 
 const selectedItemsReducer = selectedItemsSlice.reducer;
 
-export const { addSelectedItem, delSelectedItem } = selectedItemsSlice.actions;
+export const { addSelectedItem, delSelectedItem, clearSelectedItems } = selectedItemsSlice.actions;
 export default selectedItemsReducer;
