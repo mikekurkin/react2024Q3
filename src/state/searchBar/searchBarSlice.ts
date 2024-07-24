@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setQuery } from '../searchResults/searchResultsSlice';
+import { setFromSearchString, setQuery } from '../searchResults/searchResultsSlice';
 
 export interface SearchBarState {
   value: string;
@@ -19,10 +19,16 @@ const searchBarSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(setQuery, (state, action) => {
-      localStorage.setItem('searchBarValue', action.payload);
-      state.value = action.payload;
-    });
+    builder
+      .addCase(setQuery, (state, action) => {
+        localStorage.setItem('searchBarValue', action.payload);
+        state.value = action.payload;
+      })
+      .addCase(setFromSearchString, (state, action) => {
+        const { q } = Object.fromEntries(new URLSearchParams(action.payload).entries());
+        localStorage.setItem('searchBarValue', q ?? state.value);
+        state.value = q ?? state.value;
+      });
   },
 });
 

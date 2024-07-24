@@ -31,10 +31,19 @@ const searchResultsSlice = createSlice({
       ...state,
       details: action.payload,
     }),
+    setFromSearchString: (state, action: PayloadAction<string>) => {
+      const { q, p, details } = Object.fromEntries(new URLSearchParams(action.payload).entries());
+      return {
+        ...state,
+        query: q ?? state.query,
+        page: parseInt(p) || state.page,
+        details: isNaN(parseInt(details)) ? state.details : parseInt(details),
+      };
+    },
   },
 });
 
 const searchResultsReducer = searchResultsSlice.reducer;
 
-export const { setQuery, setPage, setDetails } = searchResultsSlice.actions;
+export const { setQuery, setPage, setDetails, setFromSearchString } = searchResultsSlice.actions;
 export default searchResultsReducer;
