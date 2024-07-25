@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useCsvExport } from '../../hooks/useCsvExport';
 import { clearSelectedItems } from '../../state/selectedItems/selectedItemsSlice';
 import { RootState } from '../../state/store';
 import './SelectionFlyout.css';
@@ -6,9 +7,15 @@ import './SelectionFlyout.css';
 const SelectionFlyout = () => {
   const { selectionRecords } = useSelector((state: RootState) => state.selectedItems);
   const dispatch = useDispatch();
+  const exportCsv = useCsvExport();
 
   const selectionCount = selectionRecords.length;
   const clearSelection = () => dispatch(clearSelectedItems());
+  const downloadInfo = () =>
+    exportCsv(
+      selectionRecords.map((r) => r.person),
+      `${selectionCount}_people.csv`
+    );
 
   return selectionCount === 0 ? null : (
     <div className='selection-flyout'>
@@ -19,7 +26,9 @@ const SelectionFlyout = () => {
         <button className='flyout-button deselect-all' onClick={clearSelection}>
           Deselect All
         </button>
-        <button className='flyout-button download-selection'>Download Info</button>
+        <button className='flyout-button download-selection' onClick={downloadInfo}>
+          Download Info
+        </button>
       </div>
     </div>
   );
