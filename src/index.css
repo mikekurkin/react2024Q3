@@ -33,6 +33,7 @@ body {
 
   color: var(--light-text-color);
   background-color: var(--light-bg-color);
+  transition: background 0.4s color 0.4s;
 }
 
 body.dark {
@@ -68,6 +69,7 @@ input,
   color: inherit;
   background-color: var(--light-input-bg-color);
   transition: border-color 0.25s;
+  transition: background 0.4s color 0.4s;
 }
 
 body.dark button,
