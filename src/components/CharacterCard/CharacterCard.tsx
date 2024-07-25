@@ -23,7 +23,7 @@ const CharacterCard = ({ index, character }: CharacterCardProps) => {
   return (
     <div
       onClick={() => dispatch(setDetails(details == index ? null : index))}
-      className={details == index ? 'character-card active' : 'character-card'}
+      className={details == index ? 'character-card control active' : 'control character-card'}
     >
       <div className='flex flex-row'>
         <input

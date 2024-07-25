@@ -15,8 +15,8 @@ const CharacterDetails = ({ character }: CharacterDetailsProps) => {
   const { isFetching, data: planet } = swApi.useGetPlanetQuery(character.homeworld);
 
   return (
-    <div className='character-details flex-item'>
-      <div className='close-button' onClick={() => dispatch(setDetails(null))} />
+    <div className='character-details flex-item panel'>
+      <div className='close-button control' onClick={() => dispatch(setDetails(null))} />
       <h2>{character.name}</h2>
       {isFetching ? (
         <Loader />

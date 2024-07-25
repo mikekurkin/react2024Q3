@@ -5,44 +5,32 @@
   transform: translate(-50%, 0);
   left: 50%;
   bottom: 0;
-  background-color: hsl(0, 0%, 15%);
   padding: 0.5em 2em;
   text-align: left;
+  border: 1px solid transparent;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  border: 1px solid transparent;
   border-bottom-style: none;
-  border-color: #a1a5ff;
+
+  background-color: var(--light-darker-bg-color);
+  color: var(--light-text-color);
+  border-color: var(--light-shadow-color);
+  box-shadow: var(--light-shadow-color) 0px -3px 7px 0px;
+}
+.selection-flyout.dark {
+  background-color: var(--dark-lighter-bg-color);
+  color: var(--dark-text-color);
+  border-color: var(--dark-shadow-color);
+  box-shadow: var(--dark-shadow-color) 0px -3px 7px 0px;
 }
 .selection-flyout p {
   flex-grow: 1;
 }
+
 .flyout-button {
-  flex-grow: 0;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  margin: auto 0.3em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  transition: border-color 0.25s;
+  background-color: var(--light-input-bg-color);
 }
 
-button {
-  cursor: pointer;
-}
-
-.flyout-button:hover {
-  border-color: #646cff;
-}
-
-@media (prefers-color-scheme: light) {
-  .selection-flyout {
-    background-color: #fefefe;
-  }
-  .flyout-button {
-    background-color: #f0f0f0;
-  }
+.selection-flyout.dark .flyout-button {
+  background-color: var(--dark-input-bg-color);
 }

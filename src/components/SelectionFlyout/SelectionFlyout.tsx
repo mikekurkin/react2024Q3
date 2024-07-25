@@ -23,10 +23,10 @@ const SelectionFlyout = () => {
         <p>
           {selectionCount} {selectionCount == 1 ? 'item' : 'items'} selected
         </p>
-        <button className='flyout-button deselect-all' onClick={clearSelection}>
+        <button className='flyout-button' onClick={clearSelection}>
           Deselect All
         </button>
-        <button className='flyout-button download-selection' onClick={downloadInfo}>
+        <button className='flyout-button' onClick={downloadInfo}>
           Download Info
         </button>
       </div>

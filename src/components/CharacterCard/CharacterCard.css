@@ -1,17 +1,10 @@
 .character-card {
-  background-color: #1a1a1a;
   margin: 0.5em;
   padding: 0.5em 2em;
   text-align: left;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  cursor: pointer;
   align-items: top;
 }
 
-.character-card.active {
-  border-color: #646cff;
-}
 .selection-checkbox {
   align-self: top;
   margin: 1.5em;
@@ -23,10 +16,4 @@
 
 h3.character-name {
   margin: 0;
-}
-
-@media (prefers-color-scheme: light) {
-  .character-card {
-    background-color: #f9f9f9;
-  }
 }
