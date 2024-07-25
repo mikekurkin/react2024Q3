@@ -6,6 +6,7 @@
   border-radius: 8px;
   border: 1px solid transparent;
   cursor: pointer;
+  align-items: top;
 }
 
 .character-card.active {
@@ -13,10 +14,11 @@
 }
 .selection-checkbox {
   align-self: top;
-  margin-left: -1em;
-  margin-top: 0.5em;
-  width: 30px;
-  height: 30px;
+  margin: 1.5em;
+  margin-left: 0em;
+  height: 1em;
+  transform: scale(1, 1);
+  -webkit-transform: scale(2.5, 2.5) translate(-0.1em);
 }
 
 h3.character-name {
