@@ -10,7 +10,7 @@ export default defineConfig({
       provider: 'v8',
       all: true,
       skipFull: false,
-      reporter: ['text', 'html'],
+      reporter: ['text', 'html', 'lcov'],
     },
   },
 });

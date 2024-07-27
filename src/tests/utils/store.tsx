@@ -14,7 +14,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
 export function renderWithStore(
   ui: React.ReactElement,
   extendedRenderOptions: ExtendedRenderOptions = {}
-): ReturnType<typeof render> {
+): [ReturnType<typeof render>, AppStore] {
   const {
     preloadedState = {},
     store = setupStore(preloadedState),
@@ -23,5 +23,5 @@ export function renderWithStore(
 
   const Wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>;
 
-  return render(ui, { wrapper: Wrapper, ...renderOptions });
+  return [render(ui, { wrapper: Wrapper, ...renderOptions }), store];
 }
