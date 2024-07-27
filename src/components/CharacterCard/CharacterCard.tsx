@@ -30,10 +30,8 @@ const CharacterCard = ({ index, character }: CharacterCardProps) => {
           type='checkbox'
           className='selection-checkbox'
           checked={isSelected}
-          onClick={(e) => {
-            toggleSelection();
-            e.stopPropagation();
-          }}
+          onClick={(e) => e.stopPropagation()}
+          onChange={toggleSelection}
         />
         <div>
           <h3 className='character-name'>{character.name}</h3>
