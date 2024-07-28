@@ -2,31 +2,3 @@ form {
   display: inline-block;
   margin: 1em;
 }
-button,
-.form-control {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  margin: auto 0.3em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  transition: border-color 0.25s;
-}
-button {
-  cursor: pointer;
-}
-.form-control:hover {
-  border-color: #646cff;
-}
-.form-control:focus,
-.form-control:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  .form-control {
-    background-color: #f9f9f9;
-  }
-}

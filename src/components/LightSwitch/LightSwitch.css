@@ -1,0 +1,37 @@
+input.emoji-toggle {
+  appearance: none;
+  visibility: hidden;
+}
+
+input.emoji-toggle + label {
+  display: block;
+  position: absolute;
+  right: 10em;
+  cursor: pointer;
+  padding: 0px;
+  width: 4em;
+  height: 2.5em;
+  background-color: var(--dark-lighter-bg-color);
+  border-radius: 4em;
+  transition: background 0.4s;
+}
+input.emoji-toggle + label:before,
+input.emoji-toggle + label:after {
+  display: block;
+  position: absolute;
+  font-size: 2.25em;
+}
+input.emoji-toggle + label:after {
+  top: -0.2em;
+  left: 0.06em;
+  transition: margin 0.4s;
+
+  content: '\1F31D';
+}
+input.emoji-toggle:checked + label {
+  background-color: var(--light-darker-bg-color);
+}
+input.emoji-toggle:checked + label:after {
+  margin-left: 0.65em;
+  content: '\1F31A';
+}
