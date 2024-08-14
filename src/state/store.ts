@@ -1,20 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { swApi } from '../services/swApi/sw';
-import searchBarReducer from './searchBar/searchBarSlice';
-import searchResultsReducer from './searchResults/searchResultsSlice';
-import selectedItemsReducer from './selectedItems/selectedItemsSlice';
 
-const rootReducer = combineReducers({
-  searchBar: searchBarReducer,
-  searchResults: searchResultsReducer,
-  selectedItems: selectedItemsReducer,
-  [swApi.reducerPath]: swApi.reducer,
-});
+const rootReducer = combineReducers({});
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(swApi.middleware),
     preloadedState,
   });
 };
