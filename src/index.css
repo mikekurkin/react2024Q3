@@ -118,3 +118,72 @@ nav {
   flex: 1 1 0;
   width: 0;
 }
+
+input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* Removes leftover margin */
+}
+
+form div {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0.5em 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+fieldset legend {
+  visibility: hidden;
+  display: none;
+}
+
+label {
+  text-align: right;
+  order: 1;
+  width: 6em;
+  margin-top: 0.5em;
+  padding-right: 0.5em;
+}
+
+input,
+textarea,
+select,
+fieldset {
+  order: 2;
+  flex: 1 1 auto;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  order: 1;
+  flex: none;
+  width: auto;
+}
+input[type='checkbox'] ~ label,
+input[type='radio'] ~ label {
+  width: auto;
+  padding-left: 0.4em;
+  margin-top: 0;
+}
+
+ul[role='listbox'] {
+  display: block;
+  position: absolute;
+}
+li[role='option'] {
+  list-style-type: none;
+}
+li[role='option']:hover,
+li[role='option']:focus {
+  background-color: rgba(127, 127, 127, 0.23);
+}
