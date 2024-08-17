@@ -1,0 +1,36 @@
+.selection-flyout {
+  display: block;
+  position: fixed;
+  width: 800px;
+  transform: translate(-50%, 0);
+  left: 50%;
+  bottom: 0;
+  padding: 0.5em 2em;
+  text-align: left;
+  border: 1px solid transparent;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-style: none;
+
+  background-color: var(--light-darker-bg-color);
+  color: var(--light-text-color);
+  border-color: var(--light-shadow-color);
+  box-shadow: var(--light-shadow-color) 0px -3px 7px 0px;
+}
+.selection-flyout.dark {
+  background-color: var(--dark-lighter-bg-color);
+  color: var(--dark-text-color);
+  border-color: var(--dark-shadow-color);
+  box-shadow: var(--dark-shadow-color) 0px -3px 7px 0px;
+}
+.selection-flyout p {
+  flex-grow: 1;
+}
+
+.flyout-button {
+  background-color: var(--light-input-bg-color);
+}
+
+.selection-flyout.dark .flyout-button {
+  background-color: var(--dark-input-bg-color);
+}
