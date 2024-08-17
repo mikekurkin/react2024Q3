@@ -13,6 +13,8 @@ const FormUncontrolled = () => {
   const navigate = useNavigate();
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
 
+  const fieldError = (fieldName: string) => validationErrors.filter((err) => err.path === fieldName).pop()?.message;
+
   const saveEntry: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const formEntry = Object.fromEntries(new FormData(event.currentTarget));
@@ -20,7 +22,9 @@ const FormUncontrolled = () => {
       .validate(formEntry, { abortEarly: false })
       .then(async () => {
         setValidationErrors([]);
-        const { avatar, newPassword, ...castFormEntry } = formEntrySchema.cast(formEntry, { stripUnknown: true });
+        const { avatar, newPassword, ...castFormEntry } = formEntrySchema
+          .omit(['confirmNewPassword'])
+          .cast(formEntry, { stripUnknown: true });
         const formDataEntry: FormDataEntry = {
           ...castFormEntry,
           passwordHash: '',
@@ -40,28 +44,28 @@ const FormUncontrolled = () => {
   };
 
   return (
-    <form onSubmit={saveEntry}>
-      <div>
+    <form onSubmit={saveEntry} noValidate>
+      <div data-error={fieldError('firstname')}>
         <label htmlFor='name'>Name</label>
         <input type='text' id='name' name='firstname' autoComplete='firstname' />
       </div>
-      <div>
+      <div data-error={fieldError('age')}>
         <label htmlFor='age'>Age</label>
         <input type='number' id='age' name='age' autoComplete='age' />
       </div>
-      <div>
+      <div data-error={fieldError('email')}>
         <label htmlFor='email'>Email</label>
         <input type='email' id='email' name='email' />
       </div>
-      <div>
+      <div data-error={fieldError('newPassword')}>
         <label htmlFor='password'>Password</label>
         <input type='password' id='password' name='newPassword' autoComplete='new-password' />
       </div>
-      <div>
+      <div data-error={fieldError('confirmNewPassword')}>
         <label htmlFor='confirm-password'>Password Confirmation</label>
         <input type='password' id='confirm-password' name='confirmNewPassword' autoComplete='new-password' />
       </div>
-      <div>
+      <div data-error={fieldError('gender')}>
         <label htmlFor='gender'>Gender</label>
         <fieldset id='gender'>
           <legend>Gender</legend>
@@ -75,29 +79,24 @@ const FormUncontrolled = () => {
           </div>
         </fieldset>
       </div>
-      <div>
+      <div data-error={fieldError('terms')}>
         <label htmlFor='terms'>Terms and Conditions</label>
         <fieldset id='terms'>
           <div>
-            <input type='checkbox' id='terms' name='terms' value='true' />
-            <label htmlFor='terms'>I accept T&C</label>
+            <input type='checkbox' id='termsCB' name='terms' value='true' />
+            <label htmlFor='termsCB'>I accept T&C</label>
           </div>
         </fieldset>
       </div>
-      <div>
+      <div data-error={fieldError('avatar')}>
         <label htmlFor='avatar'>Avatar</label>
         <input type='file' id='avatar' name='avatar' accept='.jpg,.jpeg,.png' />
       </div>
-      <div>
+      <div data-error={fieldError('country')}>
         <label htmlFor='country'>Country</label>
         <CountryInput id='country' name='country' autoComplete='off' />
       </div>
       <button type='submit'>Submit</button>
-      <p>
-        {validationErrors.map((e: ValidationError) => (
-          <div>{`${e.path}: ${e.message}`}</div>
-        ))}
-      </p>
     </form>
   );
 };

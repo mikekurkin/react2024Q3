@@ -54,7 +54,7 @@ body.dark {
 button,
 input {
   padding: 0.6em 1.2em;
-  margin: auto 0.3em;
+  margin: 0 0.3em;
   font-size: 1em;
   font-weight: 500;
 }
@@ -155,7 +155,7 @@ label {
   text-align: right;
   order: 1;
   width: 6em;
-  margin-top: 0.5em;
+  margin-top: 0.2em;
   padding-right: 0.5em;
 }
 
@@ -164,13 +164,36 @@ textarea,
 select,
 fieldset {
   order: 2;
+  border-radius: 8px;
+  border: 1px solid transparent;
   flex: 1 1 auto;
+}
+
+div[data-error] input,
+div[data-error] fieldset {
+  border-color: red;
+}
+
+div[data-error]::before {
+  position: absolute;
+  display: block;
+  margin: -0.9em 9.5em;
+  border-radius: 4px;
+  font-size: 0.8em;
+  content: attr(data-error);
+  padding: 0 0.5em;
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  z-index: 300;
+  overflow: hidden;
+  text-wrap: nowrap;
 }
 
 input[type='checkbox'],
 input[type='radio'] {
   order: 1;
   flex: none;
+  margin-top: 0.3em;
   width: auto;
 }
 input[type='checkbox'] ~ label,
@@ -212,4 +235,33 @@ li[role='option']:hover,
 li[role='option']:focus,
 li[role='option'].active {
   background-color: var(--light-darker-bg-color);
+}
+
+.panel-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  flex-wrap: wrap;
+  align-content: stretch;
+  justify-content: space-evenly;
+}
+.panel {
+  padding: 1em;
+  max-width: 12em;
+  overflow: wrap;
+  word-wrap: break-word;
+  flex-grow: 0;
+  text-align: start;
+}
+
+.panel.new {
+  border-color: var(--control-border-color);
+  transition: border-color 0.25s;
+}
+
+.panel img {
+  max-width: 100%;
+}
+.panel p {
+  margin: 0.5em 0;
 }
