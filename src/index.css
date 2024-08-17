@@ -277,3 +277,53 @@ li[role='option'].active {
 .panel p {
   margin: 0.5em 0;
 }
+
+@property --strength-color {
+  syntax: '<color>';
+  initial-value: var(--light-input-bg-color);
+  inherits: false;
+}
+@property --strength-position {
+  syntax: '<percentage>';
+  initial-value: 0%;
+  inherits: false;
+}
+
+input[type='password'][data-strength] {
+  border-bottom: 5px solid transparent;
+  transition:
+    --strength-color 2s,
+    --strength-position 1s;
+
+  background:
+    linear-gradient(var(--light-input-bg-color) 0 0) padding-box,
+    linear-gradient(
+        to right,
+        var(--strength-color) var(--strength-position),
+        var(--light-input-bg-color) calc(var(--strength-position) + 2%)
+      )
+      border-box;
+}
+input[type='password'][data-strength='0'] {
+  --strength-color: var(--light-input-bg-color);
+}
+input[type='password'][data-strength='1'] {
+  --strength-color: #fb3570;
+  --strength-position: 10%;
+}
+input[type='password'][data-strength='2'] {
+  --strength-color: #fb9f35;
+  --strength-position: 30%;
+}
+input[type='password'][data-strength='3'] {
+  --strength-color: #decc27;
+  --strength-position: 50%;
+}
+input[type='password'][data-strength='4'] {
+  --strength-color: #98cc26;
+  --strength-position: 70%;
+}
+input[type='password'][data-strength='5'] {
+  --strength-color: #57d123;
+  --strength-position: 95%;
+}

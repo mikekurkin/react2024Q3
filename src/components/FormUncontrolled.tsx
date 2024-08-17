@@ -7,6 +7,7 @@ import { formEntrySchema } from '../schemas/formEntrySchema';
 import { addEntry, FormDataEntryPayload } from '../state/formData/formDataSlice';
 import base64 from '../utils/base64';
 import CountryInput from './CountryInput';
+import PasswordInput from './PasswordInput';
 
 const FormUncontrolled = () => {
   const dispatch = useDispatch();
@@ -59,11 +60,11 @@ const FormUncontrolled = () => {
       </div>
       <div data-error={fieldError('newPassword')}>
         <label htmlFor='password'>Password</label>
-        <input type='password' id='password' name='newPassword' autoComplete='new-password' />
+        <PasswordInput id='password' name='newPassword' autoComplete='new-password' />
       </div>
       <div data-error={fieldError('confirmNewPassword')}>
         <label htmlFor='confirm-password'>Password Confirmation</label>
-        <input type='password' id='confirm-password' name='confirmNewPassword' autoComplete='new-password' />
+        <PasswordInput id='confirm-password' name='confirmNewPassword' autoComplete='new-password' />
       </div>
       <div data-error={fieldError('gender')}>
         <label htmlFor='gender'>Gender</label>
