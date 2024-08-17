@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import { store } from '../state/store';
 import { fileSizeValidator, fileTypeValidator } from '../utils/fileValidators';
+import { passwordEntropyValidator } from '../utils/passwordEntropy';
 
 export const formEntrySchema = yup
   .object()
@@ -11,7 +12,14 @@ export const formEntrySchema = yup
       .required(),
     age: yup.number().typeError('age must be a number').positive().required(),
     email: yup.string().email().required(),
-    newPassword: yup.string().required(),
+    newPassword: yup
+      .string()
+      .required()
+      .test('passwordEntropy', 'password not strong enough', passwordEntropyValidator(40))
+      .matches(/[`~!@#$%^&*()\-=_+[{\]}\\]/, 'password should contain special characters')
+      .matches(/[0-9]/, 'password should contain digits')
+      .matches(/[A-Z]/, 'password should contain uppercase letters')
+      .matches(/[a-z]/, 'password should contain lowercase letters'),
     confirmNewPassword: yup
       .string()
       .required()

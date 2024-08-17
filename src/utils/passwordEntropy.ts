@@ -33,4 +33,11 @@ const passwordEntropy = (password: string) => {
   return length * Math.log2(poolSize);
 };
 
+export const passwordEntropyValidator = (entropy: number) => {
+  return (password: string) => {
+    const valid = passwordEntropy(password) >= entropy;
+    return valid;
+  };
+};
+
 export default passwordEntropy;
