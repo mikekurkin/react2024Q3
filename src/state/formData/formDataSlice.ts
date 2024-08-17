@@ -12,6 +12,8 @@ export interface FormDataEntry {
   createdAt: Date;
 }
 
+export interface FormDataEntryPayload extends Omit<FormDataEntry, 'createdAt'> {}
+
 export interface FormData {
   entries: FormDataEntry[];
 }
@@ -24,8 +26,8 @@ const formDataSlice = createSlice({
   name: 'formData',
   initialState,
   reducers: {
-    addEntry: (state, { payload }: PayloadAction<FormDataEntry>) => {
-      state.entries.push(payload);
+    addEntry: (state, { payload }: PayloadAction<FormDataEntryPayload>) => {
+      state.entries.push({ ...payload, createdAt: new Date() });
     },
   },
 });

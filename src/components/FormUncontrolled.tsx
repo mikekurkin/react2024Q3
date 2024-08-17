@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ValidationError } from 'yup';
 import { formEntrySchema } from '../schemas/formEntrySchema';
-import { addEntry, FormDataEntry } from '../state/formData/formDataSlice';
+import { addEntry, FormDataEntryPayload } from '../state/formData/formDataSlice';
 import base64 from '../utils/base64';
 import CountryInput from './CountryInput';
 
@@ -25,7 +25,7 @@ const FormUncontrolled = () => {
         const { avatar, newPassword, ...castFormEntry } = formEntrySchema
           .omit(['confirmNewPassword'])
           .cast(formEntry, { stripUnknown: true });
-        const formDataEntry: FormDataEntry = {
+        const formDataEntry: FormDataEntryPayload = {
           ...castFormEntry,
           passwordHash: '',
           avatarB64: null,

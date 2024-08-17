@@ -27,7 +27,6 @@ export const formEntrySchema = yup
       .string()
       .oneOf(store.getState().countries.countriesList, 'country must be one from the list')
       .required(),
-    createdAt: yup.date().default(() => new Date()),
   })
   .camelCase();
 

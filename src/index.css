@@ -254,9 +254,21 @@ li[role='option'].active {
   text-align: start;
 }
 
+@keyframes highlight {
+  0% {
+    border-color: var(--control-border-color);
+  }
+  90% {
+    border-color: var(--control-border-color);
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+
 .panel.new {
-  border-color: var(--control-border-color);
-  transition: border-color 0.25s;
+  animation-name: highlight;
+  animation-duration: 3s;
 }
 
 .panel img {
