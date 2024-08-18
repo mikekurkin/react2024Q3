@@ -1,6 +1,7 @@
 const base64 = {
-  encode: (file: File): Promise<string | null> => {
-    if (file.size === 0) return Promise.resolve(null);
+  encode: (file: File | FileList): Promise<string | null> => {
+    if (file instanceof FileList) file = file[0];
+    if (file === undefined || file.size === 0) return Promise.resolve(null);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     return new Promise((res, rej) => {

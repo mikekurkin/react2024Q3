@@ -1,9 +1,9 @@
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, forwardRef, useState } from 'react';
 import passwordEntropy from '../utils/passwordEntropy';
 
 interface PasswordInputProps extends React.HTMLProps<HTMLInputElement> {}
 
-const PasswordInput = ({ ...inputProps }: PasswordInputProps) => {
+const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({ ...inputProps }, ref) => {
   const [value, setValue] = useState(inputProps.value ?? '');
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setValue(event.target.value);
@@ -16,9 +16,10 @@ const PasswordInput = ({ ...inputProps }: PasswordInputProps) => {
       type='password'
       value={value}
       onChange={handleChange}
+      ref={ref}
       data-strength={Math.min(Math.round(passwordEntropy(value.toString()) / 20), 5)}
     />
   );
-};
+});
 
 export default PasswordInput;
