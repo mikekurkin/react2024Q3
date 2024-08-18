@@ -21,7 +21,22 @@
   --dark-input-bg-color: #1a1a1a;
   --dark-lighter-bg-color: #202020;
 
+  --text-color: var(--light-text-color);
+  --shadow-color: var(--light-shadow-color);
+  --bg-color: var(--light-bg-color);
+  --input-bg-color: var(--light-input-bg-color);
+  --other-bg-color: var(--light-darker-bg-color);
   --control-border-color: #646cff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: var(--dark-text-color);
+    --shadow-color: var(--dark-shadow-color);
+    --bg-color: var(--dark-bg-color);
+    --input-bg-color: var(--dark-input-bg-color);
+    --other-bg-color: var(--dark-lighter-bg-color);
+  }
 }
 
 body {
@@ -31,14 +46,9 @@ body {
 
   min-height: 100vh;
 
-  color: var(--light-text-color);
-  background-color: var(--light-bg-color);
+  color: var(--text-color);
+  background-color: var(--bg-color);
   transition: background 0.4s color 0.4s;
-}
-
-body.dark {
-  color: var(--dark-text-color);
-  background-color: var(--dark-bg-color);
 }
 
 #root {
@@ -60,7 +70,7 @@ input {
 }
 button[type='submit'] {
   margin: 1em;
-  background-color: var(--light-darker-bg-color);
+  background-color: var(--other-bg-color);
 }
 
 button,
@@ -71,22 +81,16 @@ input,
   border: 1px solid transparent;
   font-family: inherit;
   color: inherit;
-  background-color: var(--light-input-bg-color);
+  background-color: var(--input-bg-color);
   transition: border-color 0.25s;
   transition: background 0.4s color 0.4s;
 }
 
 button:disabled {
-  color: var(--light-shadow-color);
-  background-color: var(--light-input-bg-color);
+  color: var(--shadow-color);
+  background-color: var(--input-bg-color);
 }
 
-body.dark button,
-body.dark input,
-body.dark .control,
-body.dark .panel {
-  background-color: var(--dark-input-bg-color);
-}
 button:not(:disabled) {
   cursor: pointer;
 }
@@ -236,7 +240,7 @@ ul[role='listbox'] {
   padding: 1em 0 0.5em;
   width: 100%;
   margin: -0.5em 0;
-  background-color: var(--light-input-bg-color);
+  background-color: var(--input-bg-color);
   z-index: 100;
   border-radius: 8px;
   box-sizing: border-box;
@@ -248,7 +252,7 @@ li[role='option'] {
 li[role='option']:hover,
 li[role='option']:focus,
 li[role='option'].active {
-  background-color: var(--light-darker-bg-color);
+  background-color: var(--other-bg-color);
 }
 
 .panel-container {
@@ -294,7 +298,7 @@ li[role='option'].active {
 
 @property --strength-color {
   syntax: '<color>';
-  initial-value: var(--light-input-bg-color);
+  initial-value: var(--input-bg-color);
   inherits: false;
 }
 @property --strength-position {
@@ -310,16 +314,16 @@ input[type='password'][data-strength] {
     --strength-position 1s;
 
   background:
-    linear-gradient(var(--light-input-bg-color) 0 0) padding-box,
+    linear-gradient(var(--input-bg-color) 0 0) padding-box,
     linear-gradient(
         to right,
         var(--strength-color) var(--strength-position),
-        var(--light-input-bg-color) calc(var(--strength-position) + 2%)
+        var(--input-bg-color) calc(var(--strength-position) + 2%)
       )
       border-box;
 }
 input[type='password'][data-strength='0'] {
-  --strength-color: var(--light-input-bg-color);
+  --strength-color: var(--input-bg-color);
 }
 input[type='password'][data-strength='1'] {
   --strength-color: #fb3570;
