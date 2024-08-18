@@ -114,6 +114,15 @@ nav {
   flex-direction: row;
   justify-content: space-around;
 }
+nav a,
+nav a:visited {
+  color: inherit;
+  text-decoration-style: dotted;
+}
+nav a.active {
+  font-weight: 600;
+  text-decoration: none;
+}
 .flex {
   display: flex;
 }
