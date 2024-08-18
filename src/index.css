@@ -21,7 +21,22 @@
   --dark-input-bg-color: #1a1a1a;
   --dark-lighter-bg-color: #202020;
 
+  --text-color: var(--light-text-color);
+  --shadow-color: var(--light-shadow-color);
+  --bg-color: var(--light-bg-color);
+  --input-bg-color: var(--light-input-bg-color);
+  --other-bg-color: var(--light-darker-bg-color);
   --control-border-color: #646cff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: var(--dark-text-color);
+    --shadow-color: var(--dark-shadow-color);
+    --bg-color: var(--dark-bg-color);
+    --input-bg-color: var(--dark-input-bg-color);
+    --other-bg-color: var(--dark-lighter-bg-color);
+  }
 }
 
 body {
@@ -31,14 +46,9 @@ body {
 
   min-height: 100vh;
 
-  color: var(--light-text-color);
-  background-color: var(--light-bg-color);
+  color: var(--text-color);
+  background-color: var(--bg-color);
   transition: background 0.4s color 0.4s;
-}
-
-body.dark {
-  color: var(--dark-text-color);
-  background-color: var(--dark-bg-color);
 }
 
 #root {
@@ -54,9 +64,13 @@ body.dark {
 button,
 input {
   padding: 0.6em 1.2em;
-  margin: auto 0.3em;
+  margin: 0 0.3em;
   font-size: 1em;
   font-weight: 500;
+}
+button[type='submit'] {
+  margin: 1em;
+  background-color: var(--other-bg-color);
 }
 
 button,
@@ -67,25 +81,24 @@ input,
   border: 1px solid transparent;
   font-family: inherit;
   color: inherit;
-  background-color: var(--light-input-bg-color);
+  background-color: var(--input-bg-color);
   transition: border-color 0.25s;
   transition: background 0.4s color 0.4s;
 }
 
-body.dark button,
-body.dark input,
-body.dark .control,
-body.dark .panel {
-  background-color: var(--dark-input-bg-color);
+button:disabled {
+  color: var(--shadow-color);
+  background-color: var(--input-bg-color);
 }
-button {
+
+button:not(:disabled) {
   cursor: pointer;
 }
-button:hover,
-input:hover,
-.control:hover,
-.control.active,
-button.active {
+button:not(:disabled):hover,
+input:not(:disabled):hover,
+.control:not(:disabled):hover,
+.contro:not(:disabled).active,
+button:not(:disabled).active {
   border-color: var(--control-border-color);
 }
 button:focus,
@@ -100,6 +113,20 @@ h1 {
   line-height: 1.1;
   margin: 1em;
 }
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+nav a,
+nav a:visited {
+  color: inherit;
+  text-decoration-style: dotted;
+}
+nav a.active {
+  font-weight: 600;
+  text-decoration: none;
+}
 .flex {
   display: flex;
 }
@@ -112,4 +139,209 @@ h1 {
 .flex-item {
   flex: 1 1 0;
   width: 0;
+}
+
+input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* Removes leftover margin */
+}
+
+form div {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0.5em 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+fieldset legend {
+  visibility: hidden;
+  display: none;
+}
+
+label {
+  text-align: right;
+  order: 1;
+  width: 6em;
+  margin-top: 0.2em;
+  padding-right: 0.5em;
+}
+
+input,
+textarea,
+select,
+fieldset {
+  order: 2;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  flex: 1 1 auto;
+}
+
+div[data-error] input,
+div[data-error] fieldset {
+  border-color: red;
+}
+
+div[data-error]::before {
+  position: absolute;
+  display: block;
+  margin: -0.9em 9.5em;
+  border-radius: 4px;
+  font-size: 0.8em;
+  content: attr(data-error);
+  padding: 0 0.5em;
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  z-index: 300;
+  overflow: hidden;
+  text-wrap: nowrap;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  order: 1;
+  flex: none;
+  margin-top: 0.3em;
+  width: auto;
+}
+input[type='checkbox'] ~ label,
+input[type='radio'] ~ label {
+  width: auto;
+  padding-left: 0.4em;
+  margin-top: 0;
+}
+
+div[role='autocomplete'] {
+  position: relative;
+  order: 2;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+}
+div[role='autocomplete'] input {
+  z-index: 200;
+}
+ul[role='listbox'] {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  text-align: left;
+  padding: 1em 0 0.5em;
+  width: 100%;
+  margin: -0.5em 0;
+  background-color: var(--input-bg-color);
+  z-index: 100;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+li[role='option'] {
+  list-style-type: none;
+  padding: 0 1em;
+}
+li[role='option']:hover,
+li[role='option']:focus,
+li[role='option'].active {
+  background-color: var(--other-bg-color);
+}
+
+.panel-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  flex-wrap: wrap;
+  align-content: stretch;
+  justify-content: space-evenly;
+}
+.panel {
+  padding: 1em;
+  max-width: 12em;
+  overflow: wrap;
+  word-wrap: break-word;
+  flex-grow: 0;
+  text-align: start;
+}
+
+@keyframes highlight {
+  0% {
+    border-color: var(--control-border-color);
+  }
+  90% {
+    border-color: var(--control-border-color);
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+
+.panel.new {
+  animation-name: highlight;
+  animation-duration: 3s;
+}
+
+.panel img {
+  max-width: 100%;
+}
+.panel p {
+  margin: 0.5em 0;
+}
+
+@property --strength-color {
+  syntax: '<color>';
+  initial-value: var(--input-bg-color);
+  inherits: false;
+}
+@property --strength-position {
+  syntax: '<percentage>';
+  initial-value: 0%;
+  inherits: false;
+}
+
+input[type='password'][data-strength] {
+  border-bottom: 5px solid transparent;
+  transition:
+    --strength-color 2s,
+    --strength-position 1s;
+
+  background:
+    linear-gradient(var(--input-bg-color) 0 0) padding-box,
+    linear-gradient(
+        to right,
+        var(--strength-color) var(--strength-position),
+        var(--input-bg-color) calc(var(--strength-position) + 2%)
+      )
+      border-box;
+}
+input[type='password'][data-strength='0'] {
+  --strength-color: var(--input-bg-color);
+}
+input[type='password'][data-strength='1'] {
+  --strength-color: #fb3570;
+  --strength-position: 10%;
+}
+input[type='password'][data-strength='2'] {
+  --strength-color: #fb9f35;
+  --strength-position: 30%;
+}
+input[type='password'][data-strength='3'] {
+  --strength-color: #decc27;
+  --strength-position: 50%;
+}
+input[type='password'][data-strength='4'] {
+  --strength-color: #98cc26;
+  --strength-position: 70%;
+}
+input[type='password'][data-strength='5'] {
+  --strength-color: #57d123;
+  --strength-position: 95%;
 }
