@@ -18,7 +18,7 @@ const FormHooked = () => {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { isDirty, isValid, errors },
   } = useForm({ mode: 'onTouched', resolver: yupResolver(formEntrySchema) });
 
   const fieldError = (fieldName: keyof typeof errors) => errors[fieldName]?.message;
@@ -100,7 +100,9 @@ const FormHooked = () => {
           render={({ field }) => <CountryInput id='country' autoComplete='off' {...field} />}
         />
       </div>
-      <button type='submit'>Submit</button>
+      <button type='submit' disabled={!isDirty || !isValid}>
+        Submit
+      </button>
     </form>
   );
 };

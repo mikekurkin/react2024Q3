@@ -76,20 +76,25 @@ input,
   transition: background 0.4s color 0.4s;
 }
 
+button:disabled {
+  color: var(--light-shadow-color);
+  background-color: var(--light-input-bg-color);
+}
+
 body.dark button,
 body.dark input,
 body.dark .control,
 body.dark .panel {
   background-color: var(--dark-input-bg-color);
 }
-button {
+button:not(:disabled) {
   cursor: pointer;
 }
-button:hover,
-input:hover,
-.control:hover,
-.control.active,
-button.active {
+button:not(:disabled):hover,
+input:not(:disabled):hover,
+.control:not(:disabled):hover,
+.contro:not(:disabled).active,
+button:not(:disabled).active {
   border-color: var(--control-border-color);
 }
 button:focus,
